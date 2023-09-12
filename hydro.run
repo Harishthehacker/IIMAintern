@@ -1,0 +1,28 @@
+reset;
+model hydro.mod;
+data hydro.dat;
+
+option solver cplex;
+#option solver cplexamp;
+option cplex_options 'mipdisplay=4 mipinterval=2';#How to display solver statistics(Useful later with Integer variables)
+
+
+solve;
+show >hydro.txt;
+display _total_solve_time > hydro.txt;
+display total_cost > hydro.txt;
+display switch_cost>hydro.txt;
+display run_cost>hydro.txt;
+display num_operate>hydro.txt;
+display on>hydro.txt;
+display hy > hydro.txt;
+display tm > hydro.txt;
+display l > hydro.txt;
+display p > hydro.txt;
+display output>hydro.txt;
+display inc_output>hydro.txt;
+expand > hydro.txt;
+
+close hydro.txt;
+
+

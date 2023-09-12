@@ -1,0 +1,395 @@
+
+parameters:
+SR                 hydro_start_cost   min_depth          starting_cost
+demand             inc_cost           min_kWh            units
+depth_reduction    max_depth          op_level
+hours              max_kWh            pump_cost
+hydro_cost         midnight_depth     running_cost
+
+sets:   gen   hydro   time
+
+variables:
+hy            l             on            p             switch_cost
+inc_output    num_operate   output        run_cost      tm
+
+constraints:
+constraint1     constraint3     constraint6     constraint8
+constraint11    constraint4     constraint7     constraint9
+constraint2     constraint5     constraint7_1
+
+objective:   total_cost
+_total_solve_time = 0.03125
+
+total_cost = 888800
+
+switch_cost = 113000
+
+run_cost = 775800
+
+num_operate :=
+1 1   18
+1 2   38
+1 3   32
+1 4   50
+1 5   34
+2 1    0
+2 2    0
+2 3    0
+2 4    1
+2 5    0
+3 1    0
+3 2    0
+3 3    0
+3 4    0
+3 5    0
+;
+
+on :=
+1 1   18
+1 2   20
+1 3    0
+1 4   18
+1 5    0
+2 1    0
+2 2    0
+2 3    0
+2 4    1
+2 5    0
+3 1    0
+3 2    0
+3 3    0
+3 4    0
+3 5    0
+;
+
+hy :=
+1 1   0
+1 2   0
+1 3   0
+1 4   0
+1 5   0
+2 1   0
+2 2   0
+2 3   0
+2 4   0
+2 5   0
+;
+
+tm :=
+1 1   0
+1 2   0
+1 3   0
+1 4   0
+1 5   0
+2 1   0
+2 2   0
+2 3   0
+2 4   0
+2 5   0
+;
+
+l [*] :=
+1  20
+2  20
+3  20
+4  20
+5  20
+;
+
+p [*] :=
+1  0
+2  0
+3  0
+4  0
+5  0
+;
+
+output :=
+1 1   36000
+1 2   76000
+1 3   64000
+1 4   1e+05
+1 5   68000
+2 1       0
+2 2       0
+2 3       0
+2 4    1750
+2 5       0
+3 1       0
+3 2       0
+3 3       0
+3 4       0
+3 5       0
+;
+
+inc_output :=
+1 1   0
+1 2   0
+1 3   0
+1 4   0
+1 5   0
+2 1   0
+2 2   0
+2 3   0
+2 4   0
+2 5   0
+3 1   0
+3 2   0
+3 3   0
+3 4   0
+3 5   0
+;
+
+minimize total_cost:
+	switch_cost + run_cost;
+
+subject to constraint1:
+	-2000*on[1,1] - 2000*on[1,2] - 2000*on[1,3] - 2000*on[1,4] - 
+	2000*on[1,5] - 1000*on[2,1] - 1000*on[2,2] - 1000*on[2,3] - 
+	1000*on[2,4] - 1000*on[2,5] - 500*on[3,1] - 500*on[3,2] - 500*on[3,3]
+	 - 500*on[3,4] - 500*on[3,5] + switch_cost - 1500*tm[1,1] - 
+	1500*tm[1,2] - 1500*tm[1,3] - 1500*tm[1,4] - 1500*tm[1,5] - 
+	1200*tm[2,1] - 1200*tm[2,2] - 1200*tm[2,3] - 1200*tm[2,4] - 
+	1200*tm[2,5] = 0;
+
+subject to constraint2:
+	-6000*num_operate[1,1] - 3000*num_operate[1,2] - 6000*num_operate[1,3]
+	 - 3000*num_operate[1,4] - 6000*num_operate[1,5] - 
+	15600*num_operate[2,1] - 7800*num_operate[2,2] - 15600*num_operate[2,3]
+	 - 7800*num_operate[2,4] - 15600*num_operate[2,5] - 
+	18000*num_operate[3,1] - 9000*num_operate[3,2] - 18000*num_operate[3,3]
+	 - 9000*num_operate[3,4] - 18000*num_operate[3,5] - 12*inc_output[1,1]
+	 - 6*inc_output[1,2] - 12*inc_output[1,3] - 6*inc_output[1,4] - 
+	12*inc_output[1,5] - 7.8*inc_output[2,1] - 3.9*inc_output[2,2] - 
+	7.8*inc_output[2,3] - 3.9*inc_output[2,4] - 7.8*inc_output[2,5] - 
+	18*inc_output[3,1] - 9*inc_output[3,2] - 18*inc_output[3,3] - 
+	9*inc_output[3,4] - 18*inc_output[3,5] + run_cost - 540*hy[1,1] - 
+	270*hy[1,2] - 540*hy[1,3] - 270*hy[1,4] - 540*hy[1,5] - 900*hy[2,1] - 
+	450*hy[2,2] - 900*hy[2,3] - 450*hy[2,4] - 900*hy[2,5] = 0;
+
+subject to constraint3[1]:
+	output[1,1] + output[2,1] + output[3,1] + 900*hy[1,1] + 1400*hy[2,1] - 
+	p[1] >= 15000;
+
+subject to constraint3[2]:
+	output[1,2] + output[2,2] + output[3,2] + 900*hy[1,2] + 1400*hy[2,2] - 
+	p[2] >= 30000;
+
+subject to constraint3[3]:
+	output[1,3] + output[2,3] + output[3,3] + 900*hy[1,3] + 1400*hy[2,3] - 
+	p[3] >= 25000;
+
+subject to constraint3[4]:
+	output[1,4] + output[2,4] + output[3,4] + 900*hy[1,4] + 1400*hy[2,4] - 
+	p[4] >= 40000;
+
+subject to constraint3[5]:
+	output[1,5] + output[2,5] + output[3,5] + 900*hy[1,5] + 1400*hy[2,5] - 
+	p[5] >= 27000;
+
+subject to constraint4[1,1]:
+	-850*num_operate[1,1] + output[1,1] >= 0;
+
+subject to constraint4[1,2]:
+	-850*num_operate[1,2] + output[1,2] >= 0;
+
+subject to constraint4[1,3]:
+	-850*num_operate[1,3] + output[1,3] >= 0;
+
+subject to constraint4[1,4]:
+	-850*num_operate[1,4] + output[1,4] >= 0;
+
+subject to constraint4[1,5]:
+	-850*num_operate[1,5] + output[1,5] >= 0;
+
+subject to constraint4[2,1]:
+	-1250*num_operate[2,1] + output[2,1] >= 0;
+
+subject to constraint4[2,2]:
+	-1250*num_operate[2,2] + output[2,2] >= 0;
+
+subject to constraint4[2,3]:
+	-1250*num_operate[2,3] + output[2,3] >= 0;
+
+subject to constraint4[2,4]:
+	-1250*num_operate[2,4] + output[2,4] >= 0;
+
+subject to constraint4[2,5]:
+	-1250*num_operate[2,5] + output[2,5] >= 0;
+
+subject to constraint4[3,1]:
+	-1500*num_operate[3,1] + output[3,1] >= 0;
+
+subject to constraint4[3,2]:
+	-1500*num_operate[3,2] + output[3,2] >= 0;
+
+subject to constraint4[3,3]:
+	-1500*num_operate[3,3] + output[3,3] >= 0;
+
+subject to constraint4[3,4]:
+	-1500*num_operate[3,4] + output[3,4] >= 0;
+
+subject to constraint4[3,5]:
+	-1500*num_operate[3,5] + output[3,5] >= 0;
+
+subject to constraint5[1,1]:
+	-2000*num_operate[1,1] + output[1,1] <= 0;
+
+subject to constraint5[1,2]:
+	-2000*num_operate[1,2] + output[1,2] <= 0;
+
+subject to constraint5[1,3]:
+	-2000*num_operate[1,3] + output[1,3] <= 0;
+
+subject to constraint5[1,4]:
+	-2000*num_operate[1,4] + output[1,4] <= 0;
+
+subject to constraint5[1,5]:
+	-2000*num_operate[1,5] + output[1,5] <= 0;
+
+subject to constraint5[2,1]:
+	-1750*num_operate[2,1] + output[2,1] <= 0;
+
+subject to constraint5[2,2]:
+	-1750*num_operate[2,2] + output[2,2] <= 0;
+
+subject to constraint5[2,3]:
+	-1750*num_operate[2,3] + output[2,3] <= 0;
+
+subject to constraint5[2,4]:
+	-1750*num_operate[2,4] + output[2,4] <= 0;
+
+subject to constraint5[2,5]:
+	-1750*num_operate[2,5] + output[2,5] <= 0;
+
+subject to constraint5[3,1]:
+	-4000*num_operate[3,1] + output[3,1] <= 0;
+
+subject to constraint5[3,2]:
+	-4000*num_operate[3,2] + output[3,2] <= 0;
+
+subject to constraint5[3,3]:
+	-4000*num_operate[3,3] + output[3,3] <= 0;
+
+subject to constraint5[3,4]:
+	-4000*num_operate[3,4] + output[3,4] <= 0;
+
+subject to constraint5[3,5]:
+	-4000*num_operate[3,5] + output[3,5] <= 0;
+
+subject to constraint6[1]:
+	850*num_operate[1,1] + 1250*num_operate[2,1] + 1500*num_operate[3,1]
+	 >= 14950;
+
+subject to constraint6[2]:
+	850*num_operate[1,2] + 1250*num_operate[2,2] + 1500*num_operate[3,2]
+	 >= 32200;
+
+subject to constraint6[3]:
+	850*num_operate[1,3] + 1250*num_operate[2,3] + 1500*num_operate[3,3]
+	 >= 26450;
+
+subject to constraint6[4]:
+	850*num_operate[1,4] + 1250*num_operate[2,4] + 1500*num_operate[3,4]
+	 >= 43700;
+
+subject to constraint6[5]:
+	850*num_operate[1,5] + 1250*num_operate[2,5] + 1500*num_operate[3,5]
+	 >= 28750;
+
+subject to constraint7[1,2]:
+	num_operate[1,1] - num_operate[1,2] + on[1,2] >= 0;
+
+subject to constraint7[1,3]:
+	num_operate[1,2] - num_operate[1,3] + on[1,3] >= 0;
+
+subject to constraint7[1,4]:
+	num_operate[1,3] - num_operate[1,4] + on[1,4] >= 0;
+
+subject to constraint7[1,5]:
+	num_operate[1,4] - num_operate[1,5] + on[1,5] >= 0;
+
+subject to constraint7[2,2]:
+	num_operate[2,1] - num_operate[2,2] + on[2,2] >= 0;
+
+subject to constraint7[2,3]:
+	num_operate[2,2] - num_operate[2,3] + on[2,3] >= 0;
+
+subject to constraint7[2,4]:
+	num_operate[2,3] - num_operate[2,4] + on[2,4] >= 0;
+
+subject to constraint7[2,5]:
+	num_operate[2,4] - num_operate[2,5] + on[2,5] >= 0;
+
+subject to constraint7[3,2]:
+	num_operate[3,1] - num_operate[3,2] + on[3,2] >= 0;
+
+subject to constraint7[3,3]:
+	num_operate[3,2] - num_operate[3,3] + on[3,3] >= 0;
+
+subject to constraint7[3,4]:
+	num_operate[3,3] - num_operate[3,4] + on[3,4] >= 0;
+
+subject to constraint7[3,5]:
+	num_operate[3,4] - num_operate[3,5] + on[3,5] >= 0;
+
+subject to constraint7_1[1,1]:
+	-num_operate[1,1] + on[1,1] = 0;
+
+subject to constraint7_1[2,1]:
+	-num_operate[2,1] + on[2,1] = 0;
+
+subject to constraint7_1[3,1]:
+	-num_operate[3,1] + on[3,1] = 0;
+
+subject to constraint8[1,2]:
+	hy[1,1] - hy[1,2] + tm[1,2] >= 0;
+
+subject to constraint8[1,3]:
+	hy[1,2] - hy[1,3] + tm[1,3] >= 0;
+
+subject to constraint8[1,4]:
+	hy[1,3] - hy[1,4] + tm[1,4] >= 0;
+
+subject to constraint8[1,5]:
+	hy[1,4] - hy[1,5] + tm[1,5] >= 0;
+
+subject to constraint8[2,2]:
+	hy[2,1] - hy[2,2] + tm[2,2] >= 0;
+
+subject to constraint8[2,3]:
+	hy[2,2] - hy[2,3] + tm[2,3] >= 0;
+
+subject to constraint8[2,4]:
+	hy[2,3] - hy[2,4] + tm[2,4] >= 0;
+
+subject to constraint8[2,5]:
+	hy[2,4] - hy[2,5] + tm[2,5] >= 0;
+
+subject to constraint9[1]:
+	15 <= l[1] <= 20;
+
+subject to constraint9[2]:
+	15 <= l[2] <= 20;
+
+subject to constraint9[3]:
+	15 <= l[3] <= 20;
+
+subject to constraint9[4]:
+	15 <= l[4] <= 20;
+
+subject to constraint9[5]:
+	15 <= l[5] <= 20;
+
+subject to constraint11[2]:
+	0.31*hy[1,2] + 0.47*hy[2,2] - l[1] + l[2] - 0.001*p[2] = 0;
+
+subject to constraint11[3]:
+	0.31*hy[1,3] + 0.47*hy[2,3] - l[2] + l[3] - 0.002*p[3] = 0;
+
+subject to constraint11[4]:
+	0.31*hy[1,4] + 0.47*hy[2,4] - l[3] + l[4] - 0.001*p[4] = 0;
+
+subject to constraint11[5]:
+	0.31*hy[1,5] + 0.47*hy[2,5] - l[4] + l[5] - 0.002*p[5] = 0;
+

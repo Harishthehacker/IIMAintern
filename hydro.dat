@@ -1,0 +1,72 @@
+set time := 1,2,3,4,5;
+set gen := 1,2,3;
+set hydro:=1, 2;
+
+param demand :=
+1 15000
+2 30000
+3 25000
+4 40000
+5 27000;
+
+param hours :=
+1 6
+2 3
+3 6
+4 3
+5 6;
+
+param units :=
+1 12
+2 10
+3 5;
+
+param min_kWh :=
+1 850
+2 1250
+3 1500;
+
+param max_kWh :=
+1 2000
+2 1750
+3 4000;
+
+param starting_cost :=
+1 2000
+2 1000
+3 500;
+
+param running_cost :=
+1 1000
+2 2600
+3 3000;
+
+param inc_cost :=
+1 2
+2 1.3
+3 3;
+
+param SR := 1.15;
+
+param op_level :=
+1 900
+2 1400;
+
+param hydro_cost :=
+1 90
+2 150;
+
+param depth_reduction :=
+1 0.31
+2 0.47;
+
+param hydro_start_cost :=
+1 1500
+2 1200;
+
+param min_depth := 15;
+param max_depth := 20;
+param midnight_depth :=16;
+param pump_cost :=3000;
+
+

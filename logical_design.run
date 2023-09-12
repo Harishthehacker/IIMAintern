@@ -1,0 +1,13 @@
+reset;
+model logical_design.mod;
+data logical_design.dat;
+option solver cplex;
+option cplex_options 'mipdisplay=4 mipinterval=2';
+solve;
+show >logical_design.txt;
+display s>logical_design.txt;
+display t>logical_design.txt;
+display x>logical_design.txt;
+expand >logical_design.txt;
+close logical_design.txt;
+
