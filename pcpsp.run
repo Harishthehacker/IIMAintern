@@ -1,0 +1,11 @@
+reset;
+model pcpsp.mod;
+data pcpsp.dat;
+
+option solver cplex;
+solve;
+
+display _total_solve_time>pcpsp.txt;
+display profit>pcpsp.txt;
+expand>pcpsp.txt;
+close pcpsp.txt;

@@ -1,0 +1,20 @@
+
+reset;
+
+model opcast.mod;
+data data.dat;
+
+option solver cplex;
+solve;
+
+display _total_solve_time>opcast.txt;
+display profit>opcast.txt;
+display X>opcast.txt;
+expand>opcast.txt;
+close opcast.txt;
+
+
+
+
+
+

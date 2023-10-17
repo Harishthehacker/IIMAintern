@@ -1,0 +1,185 @@
+_total_solve_time = 0
+
+profit = 17500
+
+X [*] :=
+ 1 0    4 1    7 0   10 1   13 1   16 0   19 1   22 0   25 1   28 1
+ 2 0    5 0    8 0   11 0   14 0   17 0   20 1   23 1   26 0   29 1
+ 3 0    6 0    9 1   12 1   15 0   18 0   21 1   24 1   27 1   30 0
+;
+
+maximize profit:
+	2000*X[1] + 2000*X[2] + 16000*X[4] + 4000*X[5] - 2000*X[6] - 2000*X[7]
+	 - 5000*X[8] - 4000*X[11] + 2000*X[12] + 2000*X[13] - 2000*X[14] - 
+	1500*X[15] - 1500*X[16] - 2000*X[17] - 2500*X[18] - 1000*X[19] - 
+	1000*X[20] - 1500*X[21] - 2000*X[22] + 1000*X[24] - 1500*X[26] - 
+	1500*X[30];
+
+subject to Level_dependence[1,2]:
+	-X[1] + X[2] >= 0;
+
+subject to Level_dependence[1,3]:
+	-X[1] + X[3] >= 0;
+
+subject to Level_dependence[1,4]:
+	-X[1] + X[4] >= 0;
+
+subject to Level_dependence[1,5]:
+	-X[1] + X[5] >= 0;
+
+subject to Level_dependence[2,6]:
+	-X[2] + X[6] >= 0;
+
+subject to Level_dependence[2,7]:
+	-X[2] + X[7] >= 0;
+
+subject to Level_dependence[2,9]:
+	-X[2] + X[9] >= 0;
+
+subject to Level_dependence[2,10]:
+	-X[2] + X[10] >= 0;
+
+subject to Level_dependence[3,7]:
+	-X[3] + X[7] >= 0;
+
+subject to Level_dependence[3,8]:
+	-X[3] + X[8] >= 0;
+
+subject to Level_dependence[3,10]:
+	-X[3] + X[10] >= 0;
+
+subject to Level_dependence[3,11]:
+	-X[3] + X[11] >= 0;
+
+subject to Level_dependence[4,9]:
+	-X[4] + X[9] >= 0;
+
+subject to Level_dependence[4,10]:
+	-X[4] + X[10] >= 0;
+
+subject to Level_dependence[4,12]:
+	-X[4] + X[12] >= 0;
+
+subject to Level_dependence[4,13]:
+	-X[4] + X[13] >= 0;
+
+subject to Level_dependence[5,10]:
+	-X[5] + X[10] >= 0;
+
+subject to Level_dependence[5,11]:
+	-X[5] + X[11] >= 0;
+
+subject to Level_dependence[5,13]:
+	-X[5] + X[13] >= 0;
+
+subject to Level_dependence[5,14]:
+	-X[5] + X[14] >= 0;
+
+subject to Level_dependence[6,15]:
+	-X[6] + X[15] >= 0;
+
+subject to Level_dependence[6,16]:
+	-X[6] + X[16] >= 0;
+
+subject to Level_dependence[6,19]:
+	-X[6] + X[19] >= 0;
+
+subject to Level_dependence[6,20]:
+	-X[6] + X[20] >= 0;
+
+subject to Level_dependence[7,16]:
+	-X[7] + X[16] >= 0;
+
+subject to Level_dependence[7,17]:
+	-X[7] + X[17] >= 0;
+
+subject to Level_dependence[7,20]:
+	-X[7] + X[20] >= 0;
+
+subject to Level_dependence[7,21]:
+	-X[7] + X[21] >= 0;
+
+subject to Level_dependence[8,17]:
+	-X[8] + X[17] >= 0;
+
+subject to Level_dependence[8,18]:
+	-X[8] + X[18] >= 0;
+
+subject to Level_dependence[8,21]:
+	-X[8] + X[21] >= 0;
+
+subject to Level_dependence[8,22]:
+	-X[8] + X[22] >= 0;
+
+subject to Level_dependence[9,19]:
+	-X[9] + X[19] >= 0;
+
+subject to Level_dependence[9,20]:
+	-X[9] + X[20] >= 0;
+
+subject to Level_dependence[9,23]:
+	-X[9] + X[23] >= 0;
+
+subject to Level_dependence[9,24]:
+	-X[9] + X[24] >= 0;
+
+subject to Level_dependence[10,20]:
+	-X[10] + X[20] >= 0;
+
+subject to Level_dependence[10,21]:
+	-X[10] + X[21] >= 0;
+
+subject to Level_dependence[10,24]:
+	-X[10] + X[24] >= 0;
+
+subject to Level_dependence[10,25]:
+	-X[10] + X[25] >= 0;
+
+subject to Level_dependence[11,21]:
+	-X[11] + X[21] >= 0;
+
+subject to Level_dependence[11,22]:
+	-X[11] + X[22] >= 0;
+
+subject to Level_dependence[11,25]:
+	-X[11] + X[25] >= 0;
+
+subject to Level_dependence[11,26]:
+	-X[11] + X[26] >= 0;
+
+subject to Level_dependence[12,23]:
+	-X[12] + X[23] >= 0;
+
+subject to Level_dependence[12,24]:
+	-X[12] + X[24] >= 0;
+
+subject to Level_dependence[12,27]:
+	-X[12] + X[27] >= 0;
+
+subject to Level_dependence[12,28]:
+	-X[12] + X[28] >= 0;
+
+subject to Level_dependence[13,24]:
+	-X[13] + X[24] >= 0;
+
+subject to Level_dependence[13,25]:
+	-X[13] + X[25] >= 0;
+
+subject to Level_dependence[13,28]:
+	-X[13] + X[28] >= 0;
+
+subject to Level_dependence[13,29]:
+	-X[13] + X[29] >= 0;
+
+subject to Level_dependence[14,25]:
+	-X[14] + X[25] >= 0;
+
+subject to Level_dependence[14,26]:
+	-X[14] + X[26] >= 0;
+
+subject to Level_dependence[14,29]:
+	-X[14] + X[29] >= 0;
+
+subject to Level_dependence[14,30]:
+	-X[14] + X[30] >= 0;
+

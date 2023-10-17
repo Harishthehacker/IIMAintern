@@ -1,0 +1,13 @@
+
+reset;
+model upit.mod;
+data upit1.dat;
+
+option solver cplex;
+solve;
+
+display _total_solve_time>upit.txt;
+display Profit>upit.txt;
+display X>upit.txt;
+expand>upit.txt;
+close upit.txt;
